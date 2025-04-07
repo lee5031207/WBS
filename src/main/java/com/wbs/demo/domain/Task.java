@@ -27,6 +27,7 @@ public class Task {
 	@Column(name="task_nm")
 	private String taskNm;
 	
+	@Column(name="project")
 	private Project project;
 	
 	private Task parentTask;
