@@ -14,12 +14,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity 
+/*@Entity 
 @Table(name = "task")
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor*/
 public class Task {
 
+	/*
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="task_id")
 	private Long taskId;
@@ -53,6 +54,7 @@ public class Task {
 	private int weight;
 	
 	private String remark;
+	*/
 
 	
 	
