@@ -37,6 +37,7 @@ public class Task {
 	@Column(name="num")
 	private int num;
 	
+	@Column(name="plan_start_dt")
 	private Date planStartDt;
 	
 	private Date planEndDt;
