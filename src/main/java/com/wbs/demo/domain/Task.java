@@ -34,6 +34,7 @@ public class Task {
 	
 	private ProjectUser charge;
 	
+	@Column(name="num")
 	private int num;
 	
 	private Date planStartDt;
