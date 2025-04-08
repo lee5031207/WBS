@@ -27,13 +27,13 @@ public class Project {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="project_id")
-	private Long prjId;
+	private Long projectId;
 	
 	@Column(name="project_name")
-	private String prjName;
+	private String projectName;
 	
 	@Column(name="project_desc")
-	private String prjDesc;
+	private String projectDesc;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_id")
@@ -56,6 +56,9 @@ public class Project {
 	
 	@Column(name="create_id")
 	private String createId;
+	
+	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
+	private List<Task> tasks = new ArrayList<>();
 	
 	
 	
