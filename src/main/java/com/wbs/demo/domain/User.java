@@ -39,7 +39,7 @@ public class User {
 	private String name;
 	
 	@Column(name="email")
-	private String eMail;
+	private String email;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "team_id")
