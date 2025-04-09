@@ -1,12 +1,16 @@
 package com.wbs.demo.web;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.wbs.demo.dto.UserResponseDto;
+import com.wbs.demo.dto.user.UserCreateReqDto;
+import com.wbs.demo.dto.user.UserResponseDto;
 import com.wbs.demo.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +31,15 @@ public class UserController {
 		UserResponseDto user = userSvc.findById(id);
 		return ResponseEntity.ok(user);
 	}
+	
+	@PostMapping
+	@Operation(summary = "사용자 생성", description = "사용자 생성 API")
+	public ResponseEntity<UserResponseDto> createUser(@RequestBody UserCreateReqDto request) {
+		UserResponseDto savedUser = userSvc.createUser(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+	}
+	
+	
 	
 }
 

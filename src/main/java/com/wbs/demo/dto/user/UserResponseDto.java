@@ -1,4 +1,4 @@
-package com.wbs.demo.dto;
+package com.wbs.demo.dto.user;
 
 import com.wbs.demo.domain.User;
 
@@ -12,14 +12,14 @@ public class UserResponseDto {
 	
 	private Long userId;
 	private String loginId;
-	private String name;
+	private String userNm;
 	private String email;
 	private String teamName;
 	
 	public UserResponseDto(User user) {
         this.userId = user.getUserId();
         this.loginId = user.getLoginId();
-        this.name = user.getName();
+        this.userNm = user.getUserNm();
         this.email = user.getEmail();
         this.teamName = user.getTeam().getTeamNm();
     }

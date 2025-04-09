@@ -36,7 +36,7 @@ public class User {
 	private String pwd;
 	
 	@Column(name="user_nm")
-	private String name;
+	private String userNm;
 	
 	@Column(name="email")
 	private String email;
