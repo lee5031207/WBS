@@ -1,4 +1,4 @@
-package com.wbs.demo.util;
+package com.wbs.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class SwaggerConfig {
 	
 	private Info apiInfo() {
 		return new Info()
-                .title("WBS API Spec") // API의 제목
+                .title("WBS API Document") // API의 제목
                 .description("WBS Api 명세서 입니다") // API에 대한 설명
                 .version("1.0.0"); // API의 버전
 	}

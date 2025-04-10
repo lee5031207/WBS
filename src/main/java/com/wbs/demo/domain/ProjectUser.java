@@ -39,7 +39,7 @@ public class ProjectUser {
 	private Project project;
 	
 	@Enumerated(EnumType.STRING)
-    private Role role;
+    private ProjectRole projectRole;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "part_id")
