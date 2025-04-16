@@ -14,12 +14,14 @@ import com.wbs.demo.dto.user.UserResponseDto;
 import com.wbs.demo.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+//@SecurityRequirement(name = "bearerAuth")
 @Tag(name = "User", description = "User API")
 public class UserController {
 	
