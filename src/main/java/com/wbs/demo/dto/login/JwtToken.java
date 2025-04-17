@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Builder 
+//@Data
 @Getter @Setter
 public class JwtToken {
 	private String grantType;

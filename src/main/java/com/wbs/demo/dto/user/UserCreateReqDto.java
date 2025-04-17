@@ -25,4 +25,7 @@ public class UserCreateReqDto {
 	@NotNull
 	private Long teamId;
 	
+	@NotBlank
+	private String role;
+	
 }

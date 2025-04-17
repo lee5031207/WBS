@@ -15,6 +15,7 @@ public class UserResponseDto {
 	private String userNm;
 	private String email;
 	private String teamName;
+	private String role;
 	
 	public UserResponseDto(User user) {
         this.userId = user.getUserId();
@@ -22,5 +23,6 @@ public class UserResponseDto {
         this.userNm = user.getUserNm();
         this.email = user.getEmail();
         this.teamName = user.getTeam().getTeamNm();
+        this.role = user.getRole();
     }
 }

@@ -29,7 +29,7 @@ import io.jsonwebtoken.security.SecurityException;
 @Component
 public class JwtTokenProvider {
 
-	@Value("${jwt.token.secret}")
+	@Value("${jwt.token.secretKey}")
 	private String secretKey;
 	
 	@Value("${jwt.token.access.expiration}")

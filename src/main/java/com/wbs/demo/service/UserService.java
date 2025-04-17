@@ -1,5 +1,6 @@
 package com.wbs.demo.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ public class UserService {
 	
 	private final UserRepository userRepo;
 	private final TeamRepository teamRepo;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Transactional(readOnly = true)
 	public UserResponseDto findById(Long id) {
@@ -34,7 +36,7 @@ public class UserService {
 		
 		User user = new User();
 		user.setLoginId(request.getLoginId());
-		user.setPwd(request.getPwd());
+		user.setPwd(passwordEncoder.encode(request.getPwd()));
 		user.setUserNm(request.getUserNm());
 		user.setEmail(request.getEmail());
 		user.setTeam(team);
