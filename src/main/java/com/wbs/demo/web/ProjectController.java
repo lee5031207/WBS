@@ -3,6 +3,9 @@ package com.wbs.demo.web;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +30,12 @@ public class ProjectController {
 	@PostMapping
 	@Operation(summary = "프로젝트 생성", description = "프로젝트 생성 API")
 	public ResponseEntity<ProjectResponseDto> createProject(@RequestBody projectCreateDto request){
+		
+		String createId = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println("TEST");
+		System.out.println("TEST");
+		System.out.println("TEST");System.out.println("TEST");
+		System.out.println("TEST");
 		ProjectResponseDto savedProject = null; //TO-DO : 서비스 만들어야함
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedProject);
 	}

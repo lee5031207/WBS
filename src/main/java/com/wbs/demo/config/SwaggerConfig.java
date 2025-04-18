@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 
 @SecurityScheme(
 	    name = "bearerAuth",
@@ -22,7 +23,8 @@ public class SwaggerConfig {
 	@Bean
 	public OpenAPI openAPI() {
 		return new OpenAPI().components(new Components())
-				.info(apiInfo());
+				.info(apiInfo())
+				.addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
 	}
 	
 	private Info apiInfo() {

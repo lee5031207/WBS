@@ -27,4 +27,6 @@ public class projectCreateDto {
 	@Column(name="end_dt")
 	private Date endDt;
 	
+	private String createId;
+	
 }

@@ -70,13 +70,18 @@ public class JwtTokenProvider {
 				.setSigningKey(secretKey)
 				.build()
 				.parseClaimsJws(token); //서명검증
+			return true;
 		}catch (SecurityException | MalformedJwtException e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}catch (ExpiredJwtException e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}catch (UnsupportedJwtException e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			// TODO: handle exception
 		}
 		return false;
