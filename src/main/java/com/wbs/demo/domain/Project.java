@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -51,7 +53,8 @@ public class Project {
 	@OneToMany(mappedBy = "project" , fetch = FetchType.LAZY)
 	private List<Part> parts = new ArrayList<>();
 	
-	@Column(name="create_dt")
+	@CreationTimestamp
+	@Column(name = "create_dt", updatable = false)
 	private Date createDt;
 	
 	@Column(name="create_id")
