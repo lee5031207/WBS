@@ -46,6 +46,6 @@ public class ProjectUser {
 	private Part part;
 	
 	@OneToMany(mappedBy = "charge", fetch=FetchType.LAZY)
-	private List<Task> taskList = new ArrayList<>();
+	private List<Task> tasks = new ArrayList<>();
 	
 }

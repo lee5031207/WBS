@@ -5,7 +5,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wbs.demo.domain.Project;
 import com.wbs.demo.dto.project.ProjectResponseDto;
-import com.wbs.demo.dto.project.projectCreateDto;
+import com.wbs.demo.dto.project.ProjectCreateDto;
+import com.wbs.demo.repository.ProjectRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -13,18 +14,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProjectService {
 	
-	@Transactional
-	public ProjectResponseDto createProject(projectCreateDto request) {
+	private final ProjectRepository projectRepo;
+	
+	@Transactional(readOnly = true)
+	public ProjectResponseDto findById(Long id) {
+		Project project = projectRepo.findById(id)
+				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다."));
 		
+		return null;
+		
+	}
+	
+	
+	@Transactional
+	public ProjectResponseDto createProject(ProjectCreateDto request, String createId) {
 		Project project = new Project();
 		project.setProjectName(request.getProjectName());
 		project.setProjectDesc(request.getProjectDesc());
 		project.setStartDt(project.getStartDt());
 		project.setEndDt(request.getEndDt());
-		
-		project.setCreateId(null);
-		
-		return null;
+		project.setCreateId(createId);
+		Project savedProject = projectRepo.save(project);
+		return ProjectResponseDto
+				.builder()
+				.projectId(savedProject.getProjectId())
+				.projectName(savedProject.getProjectName())
+				.projectDesc(savedProject.getProjectDesc())
+				.startDt(savedProject.getStartDt())
+				.endDt(savedProject.getEndDt())
+				.createDt(savedProject.getCreateDt())
+				.createId(savedProject.getCreateId())
+				.build();
 	}
-
+	
 }

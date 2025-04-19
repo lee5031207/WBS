@@ -30,12 +30,24 @@ public class TeamService {
 		List<UserResponseDto> urds = new ArrayList<>();
 		for(User user : team.getTeamMember()) {
 			UserResponseDto urd = new UserResponseDto();
-			urd = new UserResponseDto(user);
+			urd = UserResponseDto
+					.builder()
+					.userId(user.getUserId())
+					.loginId(user.getLoginId())
+					.userNm(user.getUserNm())
+					.email(user.getEmail())
+					.role(user.getRole())
+					.build();
 			urds.add(urd);
 		}
 		
-		TeamResponseDto trd = new TeamResponseDto(team);
-		trd.setTeamMember(urds);
+		TeamResponseDto trd = TeamResponseDto
+				.builder()
+				.teamId(team.getTeamId())
+				.teamCd(team.getTeamCd())
+				.teamNm(team.getTeamNm())
+				.teamMember(urds)
+				.build();
 		
 		return trd;
 	}
@@ -45,7 +57,12 @@ public class TeamService {
 		List<Team> teams = teamRepo.findAll();
 		List<TeamResponseDto> trds = new ArrayList<>();
 		for (Team team : teams) {
-			TeamResponseDto trd = new TeamResponseDto(team);
+			TeamResponseDto trd = TeamResponseDto
+					.builder()
+					.teamId(team.getTeamId())
+					.teamCd(team.getTeamCd())
+					.teamNm(team.getTeamNm())
+					.build();
 			trds.add(trd);
 		}
 		return trds;
@@ -57,7 +74,12 @@ public class TeamService {
 		team.setTeamCd(request.getTeamCd());
 		team.setTeamNm(request.getTeamNm());
 		Team savedTeam = teamRepo.save(team);
-		return new TeamResponseDto(savedTeam);
+		return TeamResponseDto
+				.builder()
+				.teamId(savedTeam.getTeamId())
+				.teamCd(savedTeam.getTeamCd())
+				.teamNm(savedTeam.getTeamNm())
+				.build();
 	}
 	
 	@Transactional
@@ -78,12 +100,24 @@ public class TeamService {
 		List<UserResponseDto> urds = new ArrayList<>();
 		for(User user : updatedTeam.getTeamMember()) {
 			UserResponseDto urd = new UserResponseDto();
-			urd = new UserResponseDto(user);
+			urd = UserResponseDto
+					.builder()
+					.userId(user.getUserId())
+					.loginId(user.getLoginId())
+					.userNm(user.getUserNm())
+					.email(user.getEmail())
+					.role(user.getRole())
+					.build();
 			urds.add(urd);
 		}
 		
-		TeamResponseDto trd = new TeamResponseDto(updatedTeam);
-		trd.setTeamMember(urds);
+		TeamResponseDto trd = TeamResponseDto
+				.builder()
+				.teamId(updatedTeam.getTeamId())
+				.teamCd(updatedTeam.getTeamCd())
+				.teamNm(updatedTeam.getTeamNm())
+				.teamMember(urds)
+				.build();
 		
 		return trd;
 	}

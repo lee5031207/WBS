@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wbs.demo.domain.Team;
 import com.wbs.demo.domain.User;
+import com.wbs.demo.dto.team.TeamResponseDto;
 import com.wbs.demo.dto.user.UserCreateReqDto;
 import com.wbs.demo.dto.user.UserResponseDto;
 import com.wbs.demo.repository.TeamRepository;
@@ -23,9 +24,25 @@ public class UserService {
 	
 	@Transactional(readOnly = true)
 	public UserResponseDto findById(Long id) {
+		
 		User user = userRepo.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("사용자 조회 결과가 없습니다."));
-		return new UserResponseDto(user);
+		
+		return UserResponseDto
+				.builder()
+				.userId(user.getUserId())
+				.loginId(user.getLoginId())
+				.userNm(user.getUserNm())
+				.email(user.getEmail())
+				.team(TeamResponseDto
+						.builder()
+						.teamId(user.getTeam().getTeamId())
+						.teamCd(user.getTeam().getTeamCd())
+						.teamNm(user.getTeam().getTeamNm())
+						.build()
+				)
+				.role(user.getRole())
+				.build();
 	}
 	
 	@Transactional
@@ -42,7 +59,21 @@ public class UserService {
 		user.setTeam(team);
 		
 		User savedUser = userRepo.save(user);
-		return new UserResponseDto(savedUser);
+		return UserResponseDto
+				.builder()
+				.userId(savedUser.getUserId())
+				.loginId(savedUser.getLoginId())
+				.userNm(savedUser.getUserNm())
+				.email(savedUser.getEmail())
+				.team(TeamResponseDto
+						.builder()
+						.teamId(savedUser.getTeam().getTeamId())
+						.teamCd(savedUser.getTeam().getTeamCd())
+						.teamNm(savedUser.getTeam().getTeamNm())
+						.build()
+				)
+				.role(savedUser.getRole())
+				.build();
 	}
 
 	

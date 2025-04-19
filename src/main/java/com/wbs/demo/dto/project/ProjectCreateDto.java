@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter @Setter
 @NoArgsConstructor
-public class projectCreateDto {
+public class ProjectCreateDto {
 
 	@NotBlank
 	private String projectName;
@@ -26,7 +26,5 @@ public class projectCreateDto {
 	
 	@Column(name="end_dt")
 	private Date endDt;
-	
-	private String createId;
 	
 }
