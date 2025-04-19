@@ -28,21 +28,7 @@ public class UserService {
 		User user = userRepo.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("사용자 조회 결과가 없습니다."));
 		
-		return UserResponseDto
-				.builder()
-				.userId(user.getUserId())
-				.loginId(user.getLoginId())
-				.userNm(user.getUserNm())
-				.email(user.getEmail())
-				.team(TeamResponseDto
-						.builder()
-						.teamId(user.getTeam().getTeamId())
-						.teamCd(user.getTeam().getTeamCd())
-						.teamNm(user.getTeam().getTeamNm())
-						.build()
-				)
-				.role(user.getRole())
-				.build();
+		return UserResponseDto.fromDetail(user);
 	}
 	
 	@Transactional
@@ -59,21 +45,7 @@ public class UserService {
 		user.setTeam(team);
 		
 		User savedUser = userRepo.save(user);
-		return UserResponseDto
-				.builder()
-				.userId(savedUser.getUserId())
-				.loginId(savedUser.getLoginId())
-				.userNm(savedUser.getUserNm())
-				.email(savedUser.getEmail())
-				.team(TeamResponseDto
-						.builder()
-						.teamId(savedUser.getTeam().getTeamId())
-						.teamCd(savedUser.getTeam().getTeamCd())
-						.teamNm(savedUser.getTeam().getTeamNm())
-						.build()
-				)
-				.role(savedUser.getRole())
-				.build();
+		return UserResponseDto.fromDetail(savedUser);
 	}
 
 	

@@ -26,30 +26,7 @@ public class TeamService {
 	public TeamResponseDto findById(Long id) {
 		Team team = teamRepo.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("팀(부서) 조회 결과가 없습니다."));
-		
-		List<UserResponseDto> urds = new ArrayList<>();
-		for(User user : team.getTeamMember()) {
-			UserResponseDto urd = new UserResponseDto();
-			urd = UserResponseDto
-					.builder()
-					.userId(user.getUserId())
-					.loginId(user.getLoginId())
-					.userNm(user.getUserNm())
-					.email(user.getEmail())
-					.role(user.getRole())
-					.build();
-			urds.add(urd);
-		}
-		
-		TeamResponseDto trd = TeamResponseDto
-				.builder()
-				.teamId(team.getTeamId())
-				.teamCd(team.getTeamCd())
-				.teamNm(team.getTeamNm())
-				.teamMember(urds)
-				.build();
-		
-		return trd;
+		return TeamResponseDto.fromDetail(team);
 	}
 	
 	@Transactional(readOnly = true)
@@ -57,12 +34,7 @@ public class TeamService {
 		List<Team> teams = teamRepo.findAll();
 		List<TeamResponseDto> trds = new ArrayList<>();
 		for (Team team : teams) {
-			TeamResponseDto trd = TeamResponseDto
-					.builder()
-					.teamId(team.getTeamId())
-					.teamCd(team.getTeamCd())
-					.teamNm(team.getTeamNm())
-					.build();
+			TeamResponseDto trd = TeamResponseDto.fromSimple(team);
 			trds.add(trd);
 		}
 		return trds;
@@ -74,12 +46,7 @@ public class TeamService {
 		team.setTeamCd(request.getTeamCd());
 		team.setTeamNm(request.getTeamNm());
 		Team savedTeam = teamRepo.save(team);
-		return TeamResponseDto
-				.builder()
-				.teamId(savedTeam.getTeamId())
-				.teamCd(savedTeam.getTeamCd())
-				.teamNm(savedTeam.getTeamNm())
-				.build();
+		return TeamResponseDto.fromDetail(savedTeam);
 	}
 	
 	@Transactional
@@ -97,29 +64,7 @@ public class TeamService {
 		
 		Team updatedTeam = teamRepo.save(team);
 		
-		List<UserResponseDto> urds = new ArrayList<>();
-		for(User user : updatedTeam.getTeamMember()) {
-			UserResponseDto urd = new UserResponseDto();
-			urd = UserResponseDto
-					.builder()
-					.userId(user.getUserId())
-					.loginId(user.getLoginId())
-					.userNm(user.getUserNm())
-					.email(user.getEmail())
-					.role(user.getRole())
-					.build();
-			urds.add(urd);
-		}
-		
-		TeamResponseDto trd = TeamResponseDto
-				.builder()
-				.teamId(updatedTeam.getTeamId())
-				.teamCd(updatedTeam.getTeamCd())
-				.teamNm(updatedTeam.getTeamNm())
-				.teamMember(urds)
-				.build();
-		
-		return trd;
+		return TeamResponseDto.fromDetail(updatedTeam);
 	}
 	
 	@Transactional

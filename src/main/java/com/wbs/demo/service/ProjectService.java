@@ -1,10 +1,13 @@
 package com.wbs.demo.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wbs.demo.domain.Project;
 import com.wbs.demo.dto.project.ProjectResponseDto;
+import com.wbs.demo.dto.projectUser.ProjectUserResponseDto;
 import com.wbs.demo.dto.project.ProjectCreateDto;
 import com.wbs.demo.repository.ProjectRepository;
 
@@ -21,6 +24,12 @@ public class ProjectService {
 		Project project = projectRepo.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다."));
 		
+		List<ProjectUserResponseDto> projectUsers;
+		
+		
+		
+		
+		
 		return null;
 		
 	}
@@ -35,16 +44,7 @@ public class ProjectService {
 		project.setEndDt(request.getEndDt());
 		project.setCreateId(createId);
 		Project savedProject = projectRepo.save(project);
-		return ProjectResponseDto
-				.builder()
-				.projectId(savedProject.getProjectId())
-				.projectName(savedProject.getProjectName())
-				.projectDesc(savedProject.getProjectDesc())
-				.startDt(savedProject.getStartDt())
-				.endDt(savedProject.getEndDt())
-				.createDt(savedProject.getCreateDt())
-				.createId(savedProject.getCreateId())
-				.build();
+		return ProjectResponseDto.fromSimple(savedProject);
 	}
 	
 }

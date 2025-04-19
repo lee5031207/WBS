@@ -38,4 +38,20 @@ public class ProjectResponseDto {
 	private Date createDt;
 	private String createId;
 	private List<TaskResponseDto> tasks;
+	
+	public static ProjectResponseDto fromSimple(Project project) {
+		return ProjectResponseDto
+				.builder()
+				.projectId(project.getProjectId())
+				.projectName(project.getProjectName())
+				.projectDesc(project.getProjectDesc())
+				.startDt(project.getStartDt())
+				.endDt(project.getEndDt())
+				.createDt(project.getCreateDt())
+				.createId(project.getCreateId())
+				.build();	
+	}
+	
+	
+	
 }

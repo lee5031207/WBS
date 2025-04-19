@@ -23,4 +23,27 @@ public class UserResponseDto {
 	private String email;
 	private TeamResponseDto team;
 	private String role;
+	
+	public static UserResponseDto fromSimple (User user) {
+		return UserResponseDto
+				.builder()
+				.userId(user.getUserId())
+				.loginId(user.getLoginId())
+				.userNm(user.getUserNm())
+				.email(user.getEmail())
+				.role(user.getRole())
+				.build();
+	}
+	
+	public static UserResponseDto fromDetail (User user) {
+		return UserResponseDto
+				.builder()
+				.userId(user.getUserId())
+				.loginId(user.getLoginId())
+				.userNm(user.getUserNm())
+				.email(user.getEmail())
+				.team(TeamResponseDto.fromSimple(user.getTeam()))
+				.role(user.getRole())
+				.build();
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.ProjectRole;
+import com.wbs.demo.domain.ProjectUser;
 import com.wbs.demo.dto.part.PartResponseDto;
 import com.wbs.demo.dto.project.ProjectResponseDto;
 import com.wbs.demo.dto.task.TaskResponseDto;
@@ -29,4 +30,11 @@ public class ProjectUserResponseDto {
 	private ProjectRole projectRole;
 	private PartResponseDto part;
 	private List<TaskResponseDto> tasks;
+	
+	public static ProjectUserResponseDto fromSimple(ProjectUser projectUser) {
+		return ProjectUserResponseDto
+				.builder()
+				.prjUserId(projectUser.getPrjUserId())
+				.build();
+	}
 }

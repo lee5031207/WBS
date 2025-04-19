@@ -2,6 +2,7 @@ package com.wbs.demo.dto.team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.Project;
@@ -25,4 +26,29 @@ public class TeamResponseDto {
 	private String teamCd;
 	private String teamNm;
 	private List<UserResponseDto> teamMember;
+	
+	public static TeamResponseDto fromSimple(Team team) {
+		
+		return TeamResponseDto
+				.builder()
+				.teamId(team.getTeamId())
+				.teamCd(team.getTeamCd())
+				.teamNm(team.getTeamNm())
+				.build();
+	}
+	
+	public static TeamResponseDto fromDetail(Team team) {
+		
+		List<UserResponseDto> teamMembers = team.getTeamMember().stream()
+				.map(UserResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		return TeamResponseDto
+				.builder()
+				.teamId(team.getTeamId())
+				.teamCd(team.getTeamCd())
+				.teamNm(team.getTeamNm())
+				.teamMember(teamMembers)
+				.build();
+	}
 }
