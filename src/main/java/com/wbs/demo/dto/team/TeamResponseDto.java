@@ -48,6 +48,7 @@ public class TeamResponseDto {
 				.teamId(team.getTeamId())
 				.teamCd(team.getTeamCd())
 				.teamNm(team.getTeamNm())
+				//Detail 추가사항
 				.teamMember(teamMembers)
 				.build();
 	}

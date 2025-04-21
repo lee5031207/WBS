@@ -1,8 +1,10 @@
 package com.wbs.demo.dto.project;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.Project;
@@ -31,8 +33,8 @@ public class ProjectResponseDto {
 	private String projectName;
 	private String projectDesc;
 	private TeamResponseDto team;
-	private Date startDt;
-	private Date endDt;
+	private LocalDate startDt;
+	private LocalDate endDt;
 	private List<ProjectUserResponseDto> projectUsers;
 	private List<PartResponseDto> parts;
 	private Date createDt;
@@ -49,6 +51,37 @@ public class ProjectResponseDto {
 				.endDt(project.getEndDt())
 				.createDt(project.getCreateDt())
 				.createId(project.getCreateId())
+				.build();	
+	}
+	
+	public static ProjectResponseDto fromDetail(Project project) {
+		
+		List<ProjectUserResponseDto> projectUsers = project.getProjectUsers().stream()
+				.map(ProjectUserResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		List<PartResponseDto> parts = project.getParts().stream()
+				.map(PartResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		List<TaskResponseDto> tasks = project.getTasks().stream()
+				.map(TaskResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		return ProjectResponseDto
+				.builder()
+				.projectId(project.getProjectId())
+				.projectName(project.getProjectName())
+				.projectDesc(project.getProjectDesc())
+				.startDt(project.getStartDt())
+				.endDt(project.getEndDt())
+				.createDt(project.getCreateDt())
+				.createId(project.getCreateId())
+				//Detail 추가사항
+				.team(TeamResponseDto.fromSimple(project.getTeam()))
+				.projectUsers(projectUsers)
+				.parts(parts)
+				.tasks(tasks)
 				.build();	
 	}
 	

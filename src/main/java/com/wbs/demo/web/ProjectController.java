@@ -41,13 +41,15 @@ public class ProjectController {
 	@GetMapping(value="/{id}")
 	@Operation(summary = "프로젝트 조회", description = "프로젝트 조회 API")
 	public ResponseEntity<ProjectResponseDto> getProjectById(@PathVariable("id") Long id){
-		return null;
+		ProjectResponseDto project = projectSvc.findById(id);
+		return ResponseEntity.ok(project);
 	}
 	
 	@GetMapping()
 	@Operation(summary = "프로젝트 목록 조회", description = "프로젝트 목록 조회 API")
 	public ResponseEntity<List<ProjectResponseDto>> getProjectList(){
-		return null;
+		List<ProjectResponseDto> prds = projectSvc.getProject();
+		return ResponseEntity.ok(prds);
 	}
 	
 	@PostMapping
@@ -61,14 +63,15 @@ public class ProjectController {
 	@PatchMapping
 	@Operation(summary = "프로젝트 수정", description = "프로젝트 수정 API")
 	public ResponseEntity<ProjectResponseDto> updateProject(@RequestBody ProjectUpdateDto request){
-		return null;
+		ProjectResponseDto updatedProject = projectSvc.updateProject(request);
+		return ResponseEntity.ok(updatedProject);
 	}
 	
 	@DeleteMapping(value = "/{id}")
 	@Operation(summary = "프로젝트 삭제", description = "프로젝트 삭제 API")
 	public ResponseEntity<?> deleteProject(@PathVariable("id") Long id){
-		return null;
+		projectSvc.deleteProject(id);
+		return ResponseEntity.ok("프로젝트 삭제 완료");
 	}
 	
-
 }

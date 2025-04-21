@@ -25,7 +25,7 @@ import lombok.Setter;
 public class TaskResponseDto {
 
 	private Long taskId;
-	private String taksNm;
+	private String taskNm;
 	
 	private ProjectResponseDto project;
 	
@@ -33,7 +33,7 @@ public class TaskResponseDto {
 	
 	private List<TaskResponseDto> childTasks;
 	
-	private UserResponseDto charge;
+	private ProjectUserResponseDto charge;
 	
 	private int depth;
 	private int num;
@@ -47,8 +47,21 @@ public class TaskResponseDto {
 	private String remark;
 	
 	public static TaskResponseDto fromSimple(Task task) {
-		//TODO
-		return null;
+		return TaskResponseDto
+				.builder()
+				.taskId(task.getTaskId())
+				.taskNm(task.getTaskNm())
+				.depth(task.getDepth())
+				.num(task.getNum())
+				.planStartDt(task.getPlanStartDt())
+				.planEndDt(task.getPlanEndDt())
+				.planProgress(task.getPlanProgress())
+				.realStartDt(task.getRealStartDt())
+				.realEndDt(task.getRealEndDt())
+				.realProgress(task.getRealProgress())
+				.weight(task.getWeight())
+				.remark(task.getRemark())
+				.build();
 	}
 	
 }

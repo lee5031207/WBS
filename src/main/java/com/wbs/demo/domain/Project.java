@@ -1,5 +1,6 @@
 package com.wbs.demo.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,10 +45,12 @@ public class Project {
 	private Team team;
 	
 	@Column(name="start_dt")
-	private Date startDt;
+	@Temporal(TemporalType.DATE)
+	private LocalDate startDt;
 	
 	@Column(name="end_dt")
-	private Date endDt;
+	@Temporal(TemporalType.DATE)
+	private LocalDate endDt;
 	
 	@OneToMany(mappedBy = "project" , fetch = FetchType.LAZY)
 	private List<ProjectUser> projectUsers = new ArrayList<>();
@@ -62,7 +67,5 @@ public class Project {
 	
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
 	private List<Task> tasks = new ArrayList<>();
-	
-	
 	
 }

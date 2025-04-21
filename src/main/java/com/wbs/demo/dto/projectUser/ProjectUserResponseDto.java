@@ -35,6 +35,7 @@ public class ProjectUserResponseDto {
 		return ProjectUserResponseDto
 				.builder()
 				.prjUserId(projectUser.getPrjUserId())
+				.projectRole(projectUser.getProjectRole())
 				.build();
 	}
 }

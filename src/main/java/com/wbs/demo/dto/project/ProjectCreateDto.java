@@ -1,6 +1,9 @@
 package com.wbs.demo.dto.project;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -21,10 +24,10 @@ public class ProjectCreateDto {
 	@NotBlank
 	private Long teamId;
 	
-	@Column(name="start_dt")
-	private Date startDt;
+	@NotBlank
+	private LocalDate startDt;
 	
-	@Column(name="end_dt")
-	private Date endDt;
+	@NotBlank
+	private LocalDate endDt;
 	
 }
