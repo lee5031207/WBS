@@ -11,7 +11,6 @@ import com.wbs.demo.domain.Team;
 import com.wbs.demo.domain.User;
 import com.wbs.demo.dto.project.ProjectResponseDto;
 import com.wbs.demo.dto.project.ProjectUpdateDto;
-import com.wbs.demo.dto.projectUser.ProjectUserResponseDto;
 import com.wbs.demo.dto.project.ProjectCreateDto;
 import com.wbs.demo.repository.ProjectRepository;
 import com.wbs.demo.repository.TeamRepository;

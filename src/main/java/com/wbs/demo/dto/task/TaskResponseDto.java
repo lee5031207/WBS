@@ -1,7 +1,9 @@
 package com.wbs.demo.dto.task;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.Task;
@@ -37,11 +39,11 @@ public class TaskResponseDto {
 	
 	private int depth;
 	private int num;
-	private Date planStartDt;
-	private Date planEndDt;
+	private LocalDate planStartDt;
+	private LocalDate planEndDt;
 	private int planProgress;
-	private Date realStartDt;
-	private Date realEndDt;
+	private LocalDate realStartDt;
+	private LocalDate realEndDt;
 	private int realProgress;
 	private int weight;
 	private String remark;
@@ -61,6 +63,33 @@ public class TaskResponseDto {
 				.realProgress(task.getRealProgress())
 				.weight(task.getWeight())
 				.remark(task.getRemark())
+				.build();
+	}
+	
+	public static TaskResponseDto fromDetail(Task task) {
+		
+		List<TaskResponseDto> childTasks = task.getChildrenTasks().stream()
+				.map(TaskResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		return TaskResponseDto
+				.builder()
+				.taskId(task.getTaskId())
+				.taskNm(task.getTaskNm())
+				.depth(task.getDepth())
+				.num(task.getNum())
+				.planStartDt(task.getPlanStartDt())
+				.planEndDt(task.getPlanEndDt())
+				.planProgress(task.getPlanProgress())
+				.realStartDt(task.getRealStartDt())
+				.realEndDt(task.getRealEndDt())
+				.realProgress(task.getRealProgress())
+				.weight(task.getWeight())
+				.remark(task.getRemark())
+				.project(ProjectResponseDto.fromSimple(task.getProject()))
+				.parentTask(TaskResponseDto.fromSimple(task))
+				.childTasks(childTasks)
+				.charge(ProjectUserResponseDto.fromSimple(task.getCharge()))
 				.build();
 	}
 	

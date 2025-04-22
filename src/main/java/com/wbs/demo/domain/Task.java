@@ -1,5 +1,6 @@
 package com.wbs.demo.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,19 +57,23 @@ public class Task {
 	private int num;
 	
 	@Column(name="plan_start_dt")
-	private Date planStartDt;
+	@Temporal(TemporalType.DATE)
+	private LocalDate planStartDt;
 	
 	@Column(name="plan_end_dt")
-	private Date planEndDt;
+	@Temporal(TemporalType.DATE)
+	private LocalDate planEndDt;
 	
 	@Column(name="plan_progress")
 	private int planProgress;
 
 	@Column(name="real_start_dt")
-	private Date realStartDt;
+	@Temporal(TemporalType.DATE)
+	private LocalDate realStartDt;
 	
 	@Column(name="real_end_dt")
-	private Date realEndDt;
+	@Temporal(TemporalType.DATE)
+	private LocalDate realEndDt;
 	
 	@Column(name="real_progress")
 	private int realProgress;
@@ -76,14 +83,5 @@ public class Task {
 	
 	@Column(name="remark")
 	private String remark;
-	
-
-	
-	
-	
-	
-	
-	
-	
 	
 }
