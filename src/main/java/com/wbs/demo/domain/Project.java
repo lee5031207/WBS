@@ -53,7 +53,7 @@ public class Project {
 	private LocalDate endDt;
 	
 	@OneToMany(mappedBy = "project" , fetch = FetchType.LAZY)
-	private List<ProjectUser> projectUsers = new ArrayList<>();
+	private List<ProjectMember> projectMembers = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "project" , fetch = FetchType.LAZY)
 	private List<Part> parts = new ArrayList<>();

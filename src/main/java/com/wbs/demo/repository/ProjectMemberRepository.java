@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.wbs.demo.domain.ProjectUser;
+import com.wbs.demo.domain.ProjectMember;
 
 @Repository
-public interface ProjectUserRepository extends JpaRepository<ProjectUser, Long>{
-	Optional<ProjectUser> findById(Long id);
+public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Long>{
+	Optional<ProjectMember> findById(Long id);
 }

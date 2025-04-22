@@ -15,9 +15,6 @@ public class TaskCreateDto {
 	@NotBlank
 	private String taskNm;
 	
-	@NotNull
-	private Long projectId;
-	
 	private Long parentTaskId;
 	
 	@NotBlank

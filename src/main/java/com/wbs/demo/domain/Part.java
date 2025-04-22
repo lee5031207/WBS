@@ -39,7 +39,7 @@ public class Part {
 	private Project project;
 	
 	@OneToMany(mappedBy = "part" , fetch = FetchType.LAZY)
-	private List<ProjectUser> projectUsers = new ArrayList<>();
+	private List<ProjectMember> projectMembers = new ArrayList<>();
 	
 	
 	

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.Task;
 import com.wbs.demo.dto.part.PartResponseDto;
 import com.wbs.demo.dto.project.ProjectResponseDto;
-import com.wbs.demo.dto.projectUser.ProjectUserResponseDto;
+import com.wbs.demo.dto.projectMember.ProjectMemberResponseDto;
 import com.wbs.demo.dto.team.TeamResponseDto;
 import com.wbs.demo.dto.user.UserResponseDto;
 
@@ -35,7 +35,7 @@ public class TaskResponseDto {
 	
 	private List<TaskResponseDto> childTasks;
 	
-	private ProjectUserResponseDto charge;
+	private ProjectMemberResponseDto charge;
 	
 	private int depth;
 	private int num;
@@ -89,7 +89,7 @@ public class TaskResponseDto {
 				.project(ProjectResponseDto.fromSimple(task.getProject()))
 				.parentTask(TaskResponseDto.fromSimple(task))
 				.childTasks(childTasks)
-				.charge(ProjectUserResponseDto.fromSimple(task.getCharge()))
+				.charge(ProjectMemberResponseDto.fromSimple(task.getCharge()))
 				.build();
 	}
 	

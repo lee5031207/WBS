@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(
                                 "/api/login",
-                                "/apiSpec",
+                                "/api-spec",
                                 "/v3/api-docs/**",            // Swagger 문서 JSON
                                 "/swagger-ui/**",             // Swagger UI HTML, JS 등
                                 "/swagger-ui.html",

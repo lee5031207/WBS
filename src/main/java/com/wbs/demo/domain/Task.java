@@ -47,8 +47,8 @@ public class Task {
 	private List<Task> childrenTasks = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "project_user_id")
-	private ProjectUser charge;
+	@JoinColumn(name = "project_member_id")
+	private ProjectMember charge;
 	
 	@Column(name="depth")
 	private int depth;

@@ -5,7 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.Part;
 import com.wbs.demo.dto.project.ProjectResponseDto;
-import com.wbs.demo.dto.projectUser.ProjectUserResponseDto;
+import com.wbs.demo.dto.projectMember.ProjectMemberResponseDto;
 import com.wbs.demo.dto.team.TeamResponseDto;
 import com.wbs.demo.dto.user.UserResponseDto;
 
@@ -25,7 +25,7 @@ public class PartResponseDto {
 	private String partNm;
 	private String partDesc;
 	private ProjectResponseDto project;
-	private List<ProjectUserResponseDto> projectUsers;
+	private List<ProjectMemberResponseDto> projectUsers;
 	
 	public static PartResponseDto fromSimple(Part part) {
 		return PartResponseDto

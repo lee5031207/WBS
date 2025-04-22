@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wbs.demo.domain.Project;
-import com.wbs.demo.domain.ProjectUser;
+import com.wbs.demo.domain.ProjectMember;
 import com.wbs.demo.domain.Task;
 import com.wbs.demo.dto.task.TaskCreateDto;
 import com.wbs.demo.dto.task.TaskResponseDto;
 import com.wbs.demo.dto.task.TaskUpdateDto;
+import com.wbs.demo.repository.ProjectMemberRepository;
 import com.wbs.demo.repository.ProjectRepository;
-import com.wbs.demo.repository.ProjectUserRepository;
 import com.wbs.demo.repository.TaskRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class TaskService {
 	
 	private final ProjectRepository projectRepo;
 	
-	private final ProjectUserRepository projectUserRepo;
+	private final ProjectMemberRepository projectMemRepo;
 	
 	@Transactional(readOnly = true)
 	public TaskResponseDto findById(Long id) {
@@ -37,8 +37,12 @@ public class TaskService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<TaskResponseDto> getTask(){
-		List<Task> tasks = taskRepo.findAll();
+	public List<TaskResponseDto> getTask(Long projectId){
+		
+		List<Task> tasks = taskRepo.findByProject(
+				projectRepo.findById(projectId)
+				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다.")));
+		
 		List<TaskResponseDto> trds = new ArrayList<>();
 		for(Task task : tasks) {
 			TaskResponseDto trd = TaskResponseDto.fromSimple(task);
@@ -48,7 +52,7 @@ public class TaskService {
 	}
 	
 	@Transactional
-	public TaskResponseDto createTask(TaskCreateDto request) {
+	public TaskResponseDto createTask(TaskCreateDto request, Long projectId) {
 		Task task = new Task();
 		task.setTaskNm(request.getTaskNm());
 		task.setNum(request.getNum());
@@ -64,7 +68,7 @@ public class TaskService {
 		task.setWeight(request.getWeight());
 		task.setRemark(request.getRemark() != null ? request.getRemark() : "");
 		
-		Project project = projectRepo.findById(request.getProjectId())
+		Project project = projectRepo.findById(projectId)
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다."));
 		task.setProject(project);
 		
@@ -77,9 +81,9 @@ public class TaskService {
 			task.setDepth(0);
 		}
 		
-		ProjectUser projectUser = projectUserRepo.findById(request.getChargeId())
+		ProjectMember projectMember = projectMemRepo.findById(request.getChargeId())
 				.orElseThrow(()-> new IllegalArgumentException("담당자 조회 결과가 없습니다."));
-		task.setCharge(projectUser);
+		task.setCharge(projectMember);
 		
 		Task savedTask = taskRepo.save(task);
 		return TaskResponseDto.fromDetail(savedTask);
@@ -104,9 +108,9 @@ public class TaskService {
 		}
 		
 		if(request.getChargeId() != null) {
-			ProjectUser projectUser = projectUserRepo.findById(request.getChargeId())
+			ProjectMember projectMember = projectMemRepo.findById(request.getChargeId())
 					.orElseThrow(()-> new IllegalArgumentException("담당자 조회 결과가 없습니다."));
-			task.setCharge(projectUser);
+			task.setCharge(projectMember);
 		}
 		
 		if(request.getNum() != 0) {

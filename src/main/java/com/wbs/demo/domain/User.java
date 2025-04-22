@@ -54,7 +54,7 @@ public class User implements UserDetails{
 	private Team team;
 	
 	@OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)
-	private List<ProjectUser> projectUsers = new ArrayList<>();
+	private List<ProjectMember> projectMembers = new ArrayList<>();
 	
 	@Column(name="role")
 	private String role;

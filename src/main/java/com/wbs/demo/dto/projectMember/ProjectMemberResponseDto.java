@@ -1,11 +1,11 @@
-package com.wbs.demo.dto.projectUser;
+package com.wbs.demo.dto.projectMember;
 
 import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.wbs.demo.domain.ProjectMember;
 import com.wbs.demo.domain.ProjectRole;
-import com.wbs.demo.domain.ProjectUser;
 import com.wbs.demo.dto.part.PartResponseDto;
 import com.wbs.demo.dto.project.ProjectResponseDto;
 import com.wbs.demo.dto.task.TaskResponseDto;
@@ -22,7 +22,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProjectUserResponseDto {
+public class ProjectMemberResponseDto {
 
 	private Long prjUserId;
 	private UserResponseDto user;
@@ -31,11 +31,11 @@ public class ProjectUserResponseDto {
 	private PartResponseDto part;
 	private List<TaskResponseDto> tasks;
 	
-	public static ProjectUserResponseDto fromSimple(ProjectUser projectUser) {
-		return ProjectUserResponseDto
+	public static ProjectMemberResponseDto fromSimple(ProjectMember projectMember) {
+		return ProjectMemberResponseDto
 				.builder()
-				.prjUserId(projectUser.getPrjUserId())
-				.projectRole(projectUser.getProjectRole())
+				.prjUserId(projectMember.getPrjMemId())
+				.projectRole(projectMember.getProjectRole())
 				.build();
 	}
 }

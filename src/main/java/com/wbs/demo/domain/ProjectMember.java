@@ -21,14 +21,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity 
-@Table(name = "project_user")
+@Table(name = "project_member")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-public class ProjectUser {
+public class ProjectMember {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="project_user_id")
-	private Long prjUserId;
+	@Column(name="project_member_id")
+	private Long prjMemId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")

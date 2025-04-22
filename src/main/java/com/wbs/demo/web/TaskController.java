@@ -27,39 +27,54 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/tasks")
+@RequestMapping("/api/projects/{projectId}/tasks")
 @Tag(name = "Task", description = "Task API")
 public class TaskController {
 	
 	private final TaskService taskSvc;
 	
-	
 	@GetMapping(value= "/{id}")
 	@Operation(summary = "작업 조회", description = "작업 조회 API")
-	public ResponseEntity<TaskResponseDto> getTaskById(@PathVariable("id") Long id){
+	public ResponseEntity<TaskResponseDto> getTaskById(
+			@PathVariable("projectId") Long projectId,
+			@PathVariable("id") Long id){
 		TaskResponseDto task = taskSvc.findById(id);
+		
+		if (!task.getProject().getProjectId().equals(projectId)) {
+	        throw new IllegalArgumentException("이 작업은 해당 프로젝트에 속하지 않습니다.");
+	    }
+		
 		return ResponseEntity.ok(task);
 	}
 	
 	@GetMapping()
 	@Operation(summary = "작업 목록 조회", description = "작업 목록 조회 API")
-	public ResponseEntity<List<TaskResponseDto>> getTaskList(){
-		List<TaskResponseDto> trds = taskSvc.getTask();
+	public ResponseEntity<List<TaskResponseDto>> getTaskList(@PathVariable("projectId") Long projectId){
+		List<TaskResponseDto> trds = taskSvc.getTask(projectId);
 		return ResponseEntity.ok(trds);
 	}
 	
 	@PostMapping
 	@Operation(summary = "작업 생성", description = "작업 생성 API")
-	public ResponseEntity<TaskResponseDto> createTask(@RequestBody TaskCreateDto request,
+	public ResponseEntity<TaskResponseDto> createTask(
+			@RequestBody TaskCreateDto request,
+			@PathVariable("projectId") Long projectId,
 			@AuthenticationPrincipal User user){
-		TaskResponseDto savedTask = taskSvc.createTask(request);
+		TaskResponseDto savedTask = taskSvc.createTask(request, projectId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
 	}
 	
 	@PatchMapping
 	@Operation(summary = "작업 수정", description = "작업 수정 API")
 	public ResponseEntity<TaskResponseDto> updateTask(@RequestBody TaskUpdateDto request,
+			@PathVariable("projectId") Long projectId,
 			@AuthenticationPrincipal User user){
+		
+		TaskResponseDto task = taskSvc.findById(request.getTaskId());
+		if (!task.getProject().getProjectId().equals(projectId)) {
+	        throw new IllegalArgumentException("이 작업은 해당 프로젝트에 속하지 않습니다.");
+	    }
+		
 		TaskResponseDto updatedTask = taskSvc.updateTask(request);
 		return ResponseEntity.ok(updatedTask);
 	}
