@@ -35,6 +35,7 @@ public class ProjectMemberResponseDto {
 		return ProjectMemberResponseDto
 				.builder()
 				.prjUserId(projectMember.getPrjMemId())
+				.user(UserResponseDto.fromSimple(projectMember.getUser()))
 				.projectRole(projectMember.getProjectRole())
 				.build();
 	}

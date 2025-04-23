@@ -3,6 +3,9 @@ package com.wbs.demo.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,6 +25,7 @@ import lombok.Setter;
 @Table(name = "part")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Where(clause = "delete_yn = 'N'") //Filter 권고임
 public class Part {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +45,8 @@ public class Part {
 	@OneToMany(mappedBy = "part" , fetch = FetchType.LAZY)
 	private List<ProjectMember> projectMembers = new ArrayList<>();
 	
-	
+	@Column(name = "delete_yn", nullable = false)
+	@ColumnDefault("'N'")
+	private String deleteYn;
 	
 }

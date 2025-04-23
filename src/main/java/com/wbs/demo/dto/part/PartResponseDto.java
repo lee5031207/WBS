@@ -1,6 +1,7 @@
 package com.wbs.demo.dto.part;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.Part;
@@ -25,7 +26,7 @@ public class PartResponseDto {
 	private String partNm;
 	private String partDesc;
 	private ProjectResponseDto project;
-	private List<ProjectMemberResponseDto> projectUsers;
+	private List<ProjectMemberResponseDto> projectMembers;
 	
 	public static PartResponseDto fromSimple(Part part) {
 		return PartResponseDto
@@ -33,6 +34,22 @@ public class PartResponseDto {
 				.partId(part.getPartId())
 				.partNm(part.getPartNm())
 				.partDesc(part.getPartDesc())
+				.build();
+	}
+	
+	public static PartResponseDto fromDetail(Part part) {
+		
+		List<ProjectMemberResponseDto> projectMembers = part.getProjectMembers().stream()
+				.map(ProjectMemberResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		return PartResponseDto
+				.builder()
+				.partId(part.getPartId())
+				.partNm(part.getPartNm())
+				.partDesc(part.getPartDesc())
+				.project(ProjectResponseDto.fromSimple(part.getProject()))
+				.projectMembers(projectMembers)
 				.build();
 	}
 }

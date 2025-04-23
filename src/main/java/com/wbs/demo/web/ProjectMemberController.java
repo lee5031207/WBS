@@ -2,6 +2,7 @@ package com.wbs.demo.web;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/projects/{projectId}/members")
-@Tag(name = "projectMember", description = "projectMember API")
+@Tag(name = "ProjectMember", description = "ProjectMember API")
 public class ProjectMemberController {
 	
 	private final ProjectMemberService prjMemSvc;
@@ -59,7 +60,7 @@ public class ProjectMemberController {
 			@PathVariable("projectId") Long projectId,
 			@AuthenticationPrincipal User user){
 		ProjectMemberResponseDto savedPrjMem = prjMemSvc.createPrjMember(request, projectId);
-		return ResponseEntity.ok(savedPrjMem);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedPrjMem);
 	}
 	
 	@PatchMapping(value= "/{id}")

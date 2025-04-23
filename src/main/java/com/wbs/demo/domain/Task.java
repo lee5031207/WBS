@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,6 +28,7 @@ import lombok.Setter;
 @Table(name = "task")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
+@Where(clause = "delete_yn = 'N'") //Filter 권고임
 public class Task {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,5 +86,9 @@ public class Task {
 	
 	@Column(name="remark")
 	private String remark;
+	
+	@Column(name = "delete_yn", nullable = false)
+	@ColumnDefault("'N'")
+	private String deleteYn;
 	
 }

@@ -44,7 +44,7 @@ public class ProjectMemberService {
 	@Transactional(readOnly = true)
 	public List<ProjectMemberResponseDto> getPrjMember(Long projectId) {
 		
-		List<ProjectMember> prjmems = prjMemRepo.findByProjectId(
+		List<ProjectMember> prjmems = prjMemRepo.findByProject(
 				projectRepo.findById(projectId)
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다.")));
 		

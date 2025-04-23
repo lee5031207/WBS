@@ -12,5 +12,5 @@ import com.wbs.demo.domain.ProjectMember;
 @Repository
 public interface ProjectMemberRepository extends JpaRepository<ProjectMember, Long>{
 	Optional<ProjectMember> findById(Long id);
-	List<ProjectMember> findByProjectId(Project project);
+	List<ProjectMember> findByProject(Project project);
 }

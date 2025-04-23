@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +32,7 @@ import lombok.Setter;
 @Getter @Setter 
 @Builder
 @NoArgsConstructor @AllArgsConstructor
+@Where(clause = "delete_yn = 'N'") //Filter 권고임
 public class User implements UserDetails{
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +60,10 @@ public class User implements UserDetails{
 	
 	@Column(name="role")
 	private String role;
+	
+	@Column(name = "delete_yn", nullable = false)
+	@ColumnDefault("'N'")
+	private String deleteYn;
 
 	
 	//UserDetails 구현체
