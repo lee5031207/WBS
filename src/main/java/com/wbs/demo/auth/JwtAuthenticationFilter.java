@@ -1,7 +1,6 @@
 package com.wbs.demo.auth;
 
 import java.io.IOException;
-import java.net.Authenticator;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

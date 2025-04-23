@@ -49,7 +49,8 @@ public class TaskController {
 	
 	@GetMapping()
 	@Operation(summary = "작업 목록 조회", description = "작업 목록 조회 API")
-	public ResponseEntity<List<TaskResponseDto>> getTaskList(@PathVariable("projectId") Long projectId){
+	public ResponseEntity<List<TaskResponseDto>> getTaskList(
+			@PathVariable("projectId") Long projectId){
 		List<TaskResponseDto> trds = taskSvc.getTask(projectId);
 		return ResponseEntity.ok(trds);
 	}

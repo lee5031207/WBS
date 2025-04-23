@@ -1,13 +1,10 @@
 package com.wbs.demo.dto.team;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.wbs.demo.domain.Project;
 import com.wbs.demo.domain.Team;
-import com.wbs.demo.domain.User;
 import com.wbs.demo.dto.user.UserResponseDto;
 
 import lombok.AllArgsConstructor;

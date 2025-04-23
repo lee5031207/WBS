@@ -157,6 +157,11 @@ public class TaskService {
 		return TaskResponseDto.fromDetail(updatedTask);
 	}
 	
+	@Transactional
+	public void deleteTask(Long id) {
+		taskRepo.deleteById(id);
+	}
+	
 	//진행도 계산
 	public static int calProgress(LocalDate start, LocalDate end) {
 		
@@ -169,11 +174,6 @@ public class TaskService {
 	    long passedDays = ChronoUnit.DAYS.between(start, today) + 1;
 	    
 	    return (int)((double) passedDays / totalDays * 100);
-	}
-	
-	@Transactional
-	public void deleteTask(Long id) {
-		taskRepo.deleteById(id);
 	}
 	
 }

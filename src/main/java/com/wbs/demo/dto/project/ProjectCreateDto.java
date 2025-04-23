@@ -1,11 +1,7 @@
 package com.wbs.demo.dto.project;
 
 import java.time.LocalDate;
-import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +16,6 @@ public class ProjectCreateDto {
 	
 	@NotBlank
 	private String projectDesc;
-	
-	@NotBlank
-	private Long teamId;
 	
 	@NotBlank
 	private LocalDate startDt;

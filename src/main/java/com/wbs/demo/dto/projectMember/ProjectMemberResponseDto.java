@@ -1,7 +1,7 @@
 package com.wbs.demo.dto.projectMember;
 
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.wbs.demo.domain.ProjectMember;
@@ -36,6 +36,23 @@ public class ProjectMemberResponseDto {
 				.builder()
 				.prjUserId(projectMember.getPrjMemId())
 				.projectRole(projectMember.getProjectRole())
+				.build();
+	}
+	
+	public static ProjectMemberResponseDto fromDetail(ProjectMember projectMember) {
+		
+		List<TaskResponseDto> tasks = projectMember.getTasks().stream()
+				.map(TaskResponseDto::fromSimple)
+				.collect(Collectors.toList());
+		
+		return ProjectMemberResponseDto
+				.builder()
+				.prjUserId(projectMember.getPrjMemId())
+				.projectRole(projectMember.getProjectRole())
+				.user(UserResponseDto.fromSimple(projectMember.getUser()))
+				.project(ProjectResponseDto.fromSimple(projectMember.getProject()))
+				.part(PartResponseDto.fromSimple(projectMember.getPart()))
+				.tasks(tasks)
 				.build();
 	}
 }
