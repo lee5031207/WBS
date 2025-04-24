@@ -54,6 +54,7 @@ public class ProjectService {
 		project.setStartDt(request.getStartDt());
 		project.setEndDt(request.getEndDt());
 		project.setCreateId(createId);
+		project.setDeleteYn("N");
 		
 		User user = userRepo.findByloginId(createId)
 				.orElseThrow(()-> new IllegalArgumentException("사용자 조회 결과가 없습니다."));
