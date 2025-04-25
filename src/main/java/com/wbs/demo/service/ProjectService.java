@@ -3,15 +3,18 @@ package com.wbs.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wbs.demo.domain.Project;
+import com.wbs.demo.domain.ProjectMember;
 import com.wbs.demo.domain.Team;
 import com.wbs.demo.domain.User;
 import com.wbs.demo.dto.project.ProjectResponseDto;
 import com.wbs.demo.dto.project.ProjectUpdateDto;
 import com.wbs.demo.dto.project.ProjectCreateDto;
+import com.wbs.demo.repository.ProjectMemberRepository;
 import com.wbs.demo.repository.ProjectRepository;
 import com.wbs.demo.repository.TeamRepository;
 import com.wbs.demo.repository.UserRepository;
@@ -28,6 +31,8 @@ public class ProjectService {
 	
 	private final UserRepository userRepo;
 	
+	private final ProjectMemberRepository prjMemRepo;
+	
 	@Transactional(readOnly = true)
 	public ProjectResponseDto findById(Long id) {
 		Project project = projectRepo.findById(id)
@@ -36,8 +41,23 @@ public class ProjectService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<ProjectResponseDto> getProject(){
-		List<Project> projects = projectRepo.findAll();
+	public List<ProjectResponseDto> getProject(String loginId, String role){
+		
+		List<Project> projects = new ArrayList<>();
+		
+		if(role.equals("ROLE_ADMIN")) {
+			projects = projectRepo.findAll();
+		}else if(role.equals("ROLE_USER")){
+			//TO-DO 검증 해야함
+			User user = userRepo.findByloginId(loginId)
+					.orElseThrow(() -> new IllegalArgumentException("사용자 조회 결과가 없습니다."));
+			List<ProjectMember> prjMems = prjMemRepo.findByUser(user);
+			for(ProjectMember prjMem : prjMems) {
+				Project project = prjMem.getProject();
+				projects.add(project);
+			}
+		}
+		
 		List<ProjectResponseDto> prds = new ArrayList<>();
 		for(Project project : projects) {
 			ProjectResponseDto prd = ProjectResponseDto.fromSimple(project);

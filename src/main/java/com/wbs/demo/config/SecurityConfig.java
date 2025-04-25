@@ -42,13 +42,22 @@ public class SecurityConfig {
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
+                        
+                        //Team API 권한처리
                         .requestMatchers(HttpMethod.GET, "/api/teams/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "/api/teams").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/teams").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/teams/**").hasRole("ADMIN")
+                        
+                        //User API 권한처리
                         .requestMatchers(HttpMethod.GET, "/api/users/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.GET, "/api/users").hasRole("ADMIN")
+                        
+                        //Project API 권한처리
+                        .requestMatchers(HttpMethod.GET, "/api/projects/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.POST, "/api/projects").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.PATCH, "/api/projects").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/projects/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();

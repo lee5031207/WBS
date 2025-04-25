@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -47,8 +48,14 @@ public class ProjectController {
 	
 	@GetMapping()
 	@Operation(summary = "프로젝트 목록 조회", description = "프로젝트 목록 조회 API")
-	public ResponseEntity<List<ProjectResponseDto>> getProjectList(){
-		List<ProjectResponseDto> prds = projectSvc.getProject();
+	public ResponseEntity<List<ProjectResponseDto>> getProjectList(
+			@AuthenticationPrincipal User user){
+		
+		String role = user.getAuthorities().stream().findFirst()
+				.map(GrantedAuthority::getAuthority)
+				.orElse("ROLE_UNKOWN");
+		
+		List<ProjectResponseDto> prds = projectSvc.getProject(user.getUsername(), role);
 		return ResponseEntity.ok(prds);
 	}
 	
