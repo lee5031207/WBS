@@ -22,6 +22,8 @@ public class UserResponseDto {
 	private String userNm;
 	private String email;
 	private TeamResponseDto team;
+	private String teamNm;
+	private Long teamId;
 	private String role;
 	
 	public static UserResponseDto fromSimple (User user) {
@@ -31,6 +33,8 @@ public class UserResponseDto {
 				.loginId(user.getLoginId())
 				.userNm(user.getUserNm())
 				.email(user.getEmail())
+				.teamNm(user.getTeam().getTeamNm())
+				.teamId(user.getTeam().getTeamId())
 				.role(user.getRole())
 				.build();
 	}

@@ -45,6 +45,7 @@ public class TeamService {
 		Team team = new Team();
 		team.setTeamCd(request.getTeamCd());
 		team.setTeamNm(request.getTeamNm());
+		team.setDeleteYn("N");
 		Team savedTeam = teamRepo.save(team);
 		return TeamResponseDto.fromDetail(savedTeam);
 	}

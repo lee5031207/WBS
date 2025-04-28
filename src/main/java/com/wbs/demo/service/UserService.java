@@ -1,5 +1,8 @@
 package com.wbs.demo.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +12,7 @@ import com.wbs.demo.domain.User;
 import com.wbs.demo.dto.team.TeamResponseDto;
 import com.wbs.demo.dto.user.UserCreateReqDto;
 import com.wbs.demo.dto.user.UserResponseDto;
+import com.wbs.demo.dto.user.UserSearchDto;
 import com.wbs.demo.repository.TeamRepository;
 import com.wbs.demo.repository.UserRepository;
 
@@ -43,9 +47,23 @@ public class UserService {
 		user.setUserNm(request.getUserNm());
 		user.setEmail(request.getEmail());
 		user.setTeam(team);
+		user.setDeleteYn("N");
 		
 		User savedUser = userRepo.save(user);
 		return UserResponseDto.fromDetail(savedUser);
+	}
+	
+	@Transactional(readOnly = true)
+	public List<UserResponseDto> searchUser(UserSearchDto request){
+		
+		List<User> users = userRepo.searchUser(request.getUserNm());
+		List<UserResponseDto> urds = new ArrayList<>();
+		for(User user : users) {
+			UserResponseDto urd = UserResponseDto.fromSimple(user);
+			urds.add(urd);
+		}
+		
+		return urds;
 	}
 
 	

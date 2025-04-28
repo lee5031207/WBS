@@ -1,17 +1,22 @@
 package com.wbs.demo.web;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wbs.demo.dto.user.UserCreateReqDto;
 import com.wbs.demo.dto.user.UserResponseDto;
+import com.wbs.demo.dto.user.UserSearchDto;
 import com.wbs.demo.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,8 +47,12 @@ public class UserController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 	}
 	
-	
-	
+	@GetMapping
+	@Operation(summary = "사용자 검색", description = "사용자 검색 API")
+	public ResponseEntity<List<UserResponseDto>> searchUser(@ModelAttribute UserSearchDto request){
+		List<UserResponseDto> users = userSvc.searchUser(request);
+		return ResponseEntity.ok(users);
+	}
 }
 
 /*
