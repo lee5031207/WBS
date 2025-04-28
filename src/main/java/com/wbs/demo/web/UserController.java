@@ -51,6 +51,7 @@ public class UserController {
 	@Operation(summary = "사용자 검색", description = "사용자 검색 API")
 	public ResponseEntity<List<UserResponseDto>> searchUser(@ModelAttribute UserSearchDto request){
 		List<UserResponseDto> users = userSvc.searchUser(request);
+		System.out.println("커밋 테스트");
 		return ResponseEntity.ok(users);
 	}
 }
