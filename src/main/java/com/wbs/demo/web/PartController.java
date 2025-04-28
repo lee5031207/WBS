@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class PartController {
 	@Operation(summary = "프로젝트 파트 생성", description = "프로젝트 파트 생성 API")
 	public ResponseEntity<PartResponseDto> createPart(
 			@PathVariable("projectId") Long projectId,
-			PartCreateDto request){
+			@RequestBody PartCreateDto request){
 		PartResponseDto savedPpart = partSvc.createPart(request, projectId);
 		return ResponseEntity.status(HttpStatus.CREATED).body(savedPpart);
 	}
@@ -65,7 +66,7 @@ public class PartController {
 	@Operation(summary = "프로젝트 파트 수정", description = "프로젝트 파트 수정 API")
 	public ResponseEntity<PartResponseDto> updatePart(
 			@PathVariable("projectId") Long projectId,
-			PartUpdateDto request){
+			@RequestBody PartUpdateDto request){
 		
 		PartResponseDto part = partSvc.findById(request.getPartId());
 		if(!part.getProject().getProjectId().equals(projectId)) {
