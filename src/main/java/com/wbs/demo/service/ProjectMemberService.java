@@ -74,6 +74,7 @@ public class ProjectMemberService {
 		Part part = partRepo.findById(request.getPartId())
 				.orElseThrow(()-> new IllegalArgumentException("작업 파트 조회 결과가 없습니다."));
 		prjMem.setPart(part);
+		prjMem.setDeleteYn("N");
 		
 		ProjectMember savedPrjMem = prjMemRepo.save(prjMem);
 		return ProjectMemberResponseDto.fromDetail(savedPrjMem);
