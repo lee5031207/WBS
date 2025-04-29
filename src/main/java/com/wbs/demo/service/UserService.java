@@ -47,7 +47,6 @@ public class UserService {
 		user.setUserNm(request.getUserNm());
 		user.setEmail(request.getEmail());
 		user.setTeam(team);
-		user.setDeleteYn("N");
 		
 		User savedUser = userRepo.save(user);
 		return UserResponseDto.fromDetail(savedUser);

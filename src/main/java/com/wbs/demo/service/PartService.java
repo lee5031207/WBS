@@ -55,7 +55,6 @@ public class PartService {
 		Part part = new Part();
 		part.setPartNm(request.getPartNm());
 		part.setPartDesc(request.getPartDesc());
-		part.setDeleteYn("N");
 		
 		Project project = projectRepo.findById(projectId)
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다."));

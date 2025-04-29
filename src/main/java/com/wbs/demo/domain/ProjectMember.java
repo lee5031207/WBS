@@ -18,16 +18,19 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity 
-@Table(name = "project_member")
+@Table(name = "project_member",
+	uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"project_id", "user_id"})
+    })
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-@Where(clause = "delete_yn = 'N'") //Filter 권고임
 public class ProjectMember {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,8 +54,4 @@ public class ProjectMember {
 	
 	@OneToMany(mappedBy = "charge", fetch=FetchType.LAZY)
 	private List<Task> tasks = new ArrayList<>();
-	
-	@Column(name = "delete_yn", nullable = false)
-	@ColumnDefault("'N'")
-	private String deleteYn;
 }

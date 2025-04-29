@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,19 +56,19 @@ public class ProjectMemberController {
 	
 	@PostMapping()
 	@Operation(summary = "프로젝트 멤버 생성", description = "프로젝트 멤버 생성 API")
-	public ResponseEntity<ProjectMemberResponseDto> createPrjMember(
-			ProjectMemberCreateDto request,
+	public ResponseEntity<List<ProjectMemberResponseDto>> createPrjMember(
+			@RequestBody List<ProjectMemberCreateDto> request,
 			@PathVariable("projectId") Long projectId,
 			@AuthenticationPrincipal User user){
-		ProjectMemberResponseDto savedPrjMem = prjMemSvc.createPrjMember(request, projectId);
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedPrjMem);
+		List<ProjectMemberResponseDto> savedMembers = prjMemSvc.createPrjMember(request, projectId);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedMembers);
 	}
 	
 	@PatchMapping(value= "/{id}")
 	@Operation(summary = "프로젝트 멤버 수정", description = "프로젝트 멤버 수정 API")
 	public ResponseEntity<ProjectMemberResponseDto> updatePrjMember(
 			@PathVariable("projectId") Long projectId,
-			ProjectMemberUpdateDto request){
+			@RequestBody ProjectMemberUpdateDto request){
 		
 		ProjectMemberResponseDto prjMem = prjMemSvc.findById(request.getPrjMemId());
 		if(!prjMem.getProject().getProjectId().equals(projectId)) {

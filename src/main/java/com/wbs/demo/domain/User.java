@@ -32,7 +32,6 @@ import lombok.Setter;
 @Getter @Setter 
 @Builder
 @NoArgsConstructor @AllArgsConstructor
-@Where(clause = "delete_yn = 'N'") //Filter 권고임
 public class User implements UserDetails{
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,11 +59,6 @@ public class User implements UserDetails{
 	
 	@Column(name="role")
 	private String role;
-	
-	@Column(name = "delete_yn", nullable = false)
-	@ColumnDefault("'N'")
-	private String deleteYn;
-
 	
 	//UserDetails 구현체
 	@Override

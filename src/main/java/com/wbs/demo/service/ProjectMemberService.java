@@ -58,26 +58,37 @@ public class ProjectMemberService {
 	}
 	
 	@Transactional
-	public ProjectMemberResponseDto createPrjMember(ProjectMemberCreateDto request, Long projectId) {
-		ProjectMember prjMem = new ProjectMember();
+	public List<ProjectMemberResponseDto> createPrjMember(List<ProjectMemberCreateDto> request, Long projectId) {
 		
-		prjMem.setProjectRole(ProjectRole.valueOf(request.getProjectRole()));
-		
-		User user = userRepo.findById(request.getUserId())
-				.orElseThrow(()-> new IllegalArgumentException("사용자 조회 결과가 없습니다."));
-		prjMem.setUser(user);
+		List<ProjectMemberResponseDto> savedMembers = new ArrayList<>();
 		
 		Project project = projectRepo.findById(projectId)
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다."));
-		prjMem.setProject(project);
 		
-		Part part = partRepo.findById(request.getPartId())
-				.orElseThrow(()-> new IllegalArgumentException("작업 파트 조회 결과가 없습니다."));
-		prjMem.setPart(part);
-		prjMem.setDeleteYn("N");
+		for(ProjectMemberCreateDto pmcd : request) {
+			
+			ProjectMember prjMem = new ProjectMember();
+			
+			prjMem.setProjectRole(ProjectRole.valueOf(pmcd.getProjectRole()));
+			
+			User user = userRepo.findById(pmcd.getUserId())
+					.orElseThrow(()-> new IllegalArgumentException("사용자 조회 결과가 없습니다."));
+			
+			prjMem.setUser(user);
+			
+			if(pmcd.getPartId() != null) {
+				Part part = partRepo.findById(pmcd.getPartId())
+						.orElseThrow(()-> new IllegalArgumentException("작업 파트 조회 결과가 없습니다."));
+				prjMem.setPart(part);
+			}
+			
+			prjMem.setProject(project);
+			
+			ProjectMember savedPrjMem = prjMemRepo.save(prjMem);
+			savedMembers.add(ProjectMemberResponseDto.fromSimple(savedPrjMem));
+		}
 		
-		ProjectMember savedPrjMem = prjMemRepo.save(prjMem);
-		return ProjectMemberResponseDto.fromDetail(savedPrjMem);
+		return savedMembers;
 	}
 	
 	@Transactional

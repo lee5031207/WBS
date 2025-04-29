@@ -30,7 +30,6 @@ import lombok.Setter;
 @Table(name = "project")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
-@Where(clause = "delete_yn = 'N'") //Filter 권고임
 public class Project {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,9 +69,5 @@ public class Project {
 	
 	@OneToMany(mappedBy = "project", fetch = FetchType.LAZY)
 	private List<Task> tasks = new ArrayList<>();
-	
-	@Column(name = "delete_yn", nullable = false)
-	@ColumnDefault("'N'")
-	private String deleteYn;
 	
 }
