@@ -8,9 +8,6 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor
 public class ProjectMemberUpdateDto {
-
-	@NotNull
-	private Long prjMemId;
 	
 	private String projectRole;
 	private Long partId;

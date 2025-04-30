@@ -68,14 +68,15 @@ public class ProjectMemberController {
 	@Operation(summary = "프로젝트 멤버 수정", description = "프로젝트 멤버 수정 API")
 	public ResponseEntity<ProjectMemberResponseDto> updatePrjMember(
 			@PathVariable("projectId") Long projectId,
+			@PathVariable("id") Long id,
 			@RequestBody ProjectMemberUpdateDto request){
 		
-		ProjectMemberResponseDto prjMem = prjMemSvc.findById(request.getPrjMemId());
+		ProjectMemberResponseDto prjMem = prjMemSvc.findById(id);
 		if(!prjMem.getProject().getProjectId().equals(projectId)) {
 			throw new IllegalArgumentException("이 사용자는 해당 프로젝트에 속하지 않습니다.");
 		}
 		
-		ProjectMemberResponseDto updatedPrjMem = prjMemSvc.updatePrjMember(request);
+		ProjectMemberResponseDto updatedPrjMem = prjMemSvc.updatePrjMember(request, id);
 		return ResponseEntity.ok(updatedPrjMem);
 	}
 	

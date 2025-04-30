@@ -24,7 +24,7 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProjectMemberResponseDto {
 
-	private Long prjUserId;
+	private Long prjMemId;
 	private UserResponseDto user;
 	private ProjectResponseDto project;
 	private ProjectRole projectRole;
@@ -34,7 +34,7 @@ public class ProjectMemberResponseDto {
 	public static ProjectMemberResponseDto fromSimple(ProjectMember projectMember) {
 		return ProjectMemberResponseDto
 				.builder()
-				.prjUserId(projectMember.getPrjMemId())
+				.prjMemId(projectMember.getPrjMemId())
 				.user(UserResponseDto.fromSimple(projectMember.getUser()))
 				.projectRole(projectMember.getProjectRole())
 				.build();
@@ -48,11 +48,15 @@ public class ProjectMemberResponseDto {
 		
 		return ProjectMemberResponseDto
 				.builder()
-				.prjUserId(projectMember.getPrjMemId())
+				.prjMemId(projectMember.getPrjMemId())
 				.projectRole(projectMember.getProjectRole())
 				.user(UserResponseDto.fromSimple(projectMember.getUser()))
 				.project(ProjectResponseDto.fromSimple(projectMember.getProject()))
-				.part(PartResponseDto.fromSimple(projectMember.getPart()))
+				.part(
+						projectMember.getPart() != null
+							? PartResponseDto.fromSimple(projectMember.getPart())
+							: null
+				)
 				.tasks(tasks)
 				.build();
 	}

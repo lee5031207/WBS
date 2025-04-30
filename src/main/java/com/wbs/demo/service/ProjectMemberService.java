@@ -92,8 +92,8 @@ public class ProjectMemberService {
 	}
 	
 	@Transactional
-	public ProjectMemberResponseDto updatePrjMember(ProjectMemberUpdateDto request) {
-		ProjectMember prjMem = prjMemRepo.findById(request.getPrjMemId())
+	public ProjectMemberResponseDto updatePrjMember(ProjectMemberUpdateDto request, Long id) {
+		ProjectMember prjMem = prjMemRepo.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 멤버 조회 결과가 없습니다."));
 		
 		if(request.getProjectRole() != null) {
