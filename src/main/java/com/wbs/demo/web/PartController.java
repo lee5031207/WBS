@@ -46,7 +46,7 @@ public class PartController {
 	}
 	
 	@GetMapping
-	@Operation(summary = "프로젝트 파트 목록 조회", description = "프로젝트 파트 목록 조회 API")
+	@Operation(summary = "프로젝트 파트 목록 조회(partMember포함)", description = "프로젝트 파트 목록 조회 API")
 	public ResponseEntity<List<PartResponseDto>> getPartList(
 			@PathVariable("projectId") Long projectId){
 		List<PartResponseDto> parts = partSvc.getPart(projectId);

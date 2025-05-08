@@ -43,7 +43,7 @@ public class PartService {
 		List<PartResponseDto> prds = new ArrayList<>();
 		
 		for(Part part : parts) {
-			PartResponseDto prd = PartResponseDto.fromSimple(part);
+			PartResponseDto prd = PartResponseDto.fromDetail(part);
 			prds.add(prd);
 		}
 		return prds;
