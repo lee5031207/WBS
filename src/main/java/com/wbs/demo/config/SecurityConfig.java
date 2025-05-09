@@ -58,6 +58,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/projects/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.PATCH, "/api/projects/**").hasAnyRole("ADMIN", "USER")
                         .requestMatchers(HttpMethod.DELETE, "/api/projects/**").hasAnyRole("ADMIN", "USER")
+                        
+                        //WBS API 권한처리
+                        .requestMatchers(HttpMethod.GET, "/api/projects/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated())
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
