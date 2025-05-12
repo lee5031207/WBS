@@ -2,6 +2,8 @@ package com.wbs.demo.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.type.descriptor.java.LocalDateJavaType;
@@ -37,17 +39,29 @@ public class WbsService {
 			
 			List<WeekDto> weeks = new ArrayList<WeekDto>();
 			List<DateDto> dates = new ArrayList<DateDto>();
+			List<DateDto> tempDates = new ArrayList<DateDto>();
 			int weekIdx = 1;
 			for(LocalDate d = startDt; !d.isAfter(endDt); d = d.plusDays(1)) {
 				dates.add(DateDto.fromDate(d, weekIdx));
-				if(d.getDayOfWeek().getValue() == 6) {
-					weekIdx++;
+				tempDates.add(DateDto.fromDate(d, weekIdx));
+				if(d.getDayOfWeek().getValue() == 6 || d.isEqual(endDt)) {
 					//week정리
+					weeks.add(WeekDto.builder()
+							//.label(tempDates.get(0).getDate().substring(0,7)+"("+weekIdx+"주)")
+							.label(weekIdx+"주")
+							.weekIdx(weekIdx)
+							.startDate(tempDates.get(0).getDate())
+							.endDate(tempDates.get(tempDates.size()-1).getDate())
+							.dateCnt(tempDates.size())
+							.build());
+					tempDates.clear();
+					weekIdx++;
 				}
 			}
 			
 			dateInfo = DateInfoDto.builder()
 					.dates(dates)
+					.weeks(weeks)
 					.build();
 		}catch (Exception e) {
 			e.printStackTrace();

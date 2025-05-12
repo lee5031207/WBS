@@ -19,5 +19,6 @@ public class WeekDto {
 	private int weekIdx;
 	private String startDate;
 	private String endDate;
+	private int dateCnt;
 	
 }
