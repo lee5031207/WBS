@@ -103,8 +103,6 @@ public class TaskService {
 					.orElseThrow(()-> new IllegalArgumentException("부모 작업 조회 결과가 없습니다."));
 			task.setParentTask(parentTask);
 			task.setDepth(parentTask.getDepth()+1);
-		}else {
-			task.setDepth(0);
 		}
 		
 		if(request.getChargeId() != null) {
@@ -124,7 +122,7 @@ public class TaskService {
 			task.setPlanStartDt(request.getPlanStartDt());
 			task.setPlanEndDt(request.getPlanEndDt());
 			task.setPlanProgress(calProgress(request.getPlanStartDt(), request.getPlanStartDt()));
-		}else {
+		}else if(request.getPlanStartDt() != null || request.getPlanEndDt() != null){
 			throw new IllegalArgumentException("계획 시작일과 종료일은 모두 입력하거나 모두 생략해야 합니다.");
 		}
 		

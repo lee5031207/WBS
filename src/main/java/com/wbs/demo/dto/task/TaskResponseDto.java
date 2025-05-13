@@ -83,7 +83,11 @@ public class TaskResponseDto {
 				.weight(task.getWeight())
 				.remark(task.getRemark())
 				.project(ProjectResponseDto.fromSimple(task.getProject()))
-				.parentTask(TaskResponseDto.fromSimple(task.getParentTask()))
+				.parentTask(
+						task.getParentTask() != null
+							? TaskResponseDto.fromSimple(task.getParentTask())
+							: null
+				)
 				.childTasks(childTasks)
 				.charge(ProjectMemberResponseDto.fromSimple(task.getCharge()))
 				.build();
