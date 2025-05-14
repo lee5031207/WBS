@@ -21,9 +21,6 @@ public class TaskCreateDto {
 	private Long chargeId;
 	
 	@NotNull
-	private int num;
-	
-	@NotNull
 	private LocalDate planStartDt;
 	
 	@NotNull

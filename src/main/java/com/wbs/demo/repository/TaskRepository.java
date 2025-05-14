@@ -19,5 +19,8 @@ public interface TaskRepository extends JpaRepository<Task, Long>{
 	
 	@Query("SELECT t FROM Task t LEFT JOIN FETCH t.parentTask WHERE t.project.id = :projectId ORDER BY t.depth, t.num")
 	List<Task> findAllByProjectId(@Param("projectId") Long projectId);
+	
+	@Query("SELECT MAX(t.num) FROM Task t WHERE t.parentTask.id = :parentId")
+	Integer findMaxNumByParentId(@Param("parentId") Long parentId);
 
 }

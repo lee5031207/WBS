@@ -55,7 +55,6 @@ public class TaskService {
 	public TaskResponseDto createTask(TaskCreateDto request, Long projectId) {
 		Task task = new Task();
 		task.setTaskNm(request.getTaskNm());
-		task.setNum(request.getNum());
 		
 		if(request.getPlanStartDt().isAfter(request.getPlanEndDt())) {
 			throw new IllegalArgumentException("계획 시작일이 종료일보다 늦을 수 없습니다.");
@@ -72,13 +71,20 @@ public class TaskService {
 				.orElseThrow(()-> new IllegalArgumentException("프로젝트 조회 결과가 없습니다."));
 		task.setProject(project);
 		
-		if (request.getParentTaskId() != null) {
+		if (request.getParentTaskId() != null) {	
 			Task parentTask = taskRepo.findById(request.getParentTaskId())
 					.orElseThrow(()-> new IllegalArgumentException("부모 작업 조회 결과가 없습니다."));
 			task.setParentTask(parentTask);
 			task.setDepth(parentTask.getDepth()+1);
+			
+			Integer maxNum = taskRepo.findMaxNumByParentId(task.getParentTask().getTaskId());
+			int newNum = (maxNum != null ? maxNum : 1) + 1;
+			task.setNum(newNum);
+			
 		}else {
+			//최상위 TASK
 			task.setDepth(0);
+			task.setNum(1);
 		}
 		
 		ProjectMember projectMember = projectMemRepo.findById(request.getChargeId())

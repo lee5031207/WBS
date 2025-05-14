@@ -29,6 +29,7 @@ public class ProjectMemberResponseDto {
 	private ProjectResponseDto project;
 	private ProjectRole projectRole;
 	private PartResponseDto part;
+	private String partNm;
 	private List<TaskResponseDto> tasks;
 	
 	public static ProjectMemberResponseDto fromSimple(ProjectMember projectMember) {
@@ -37,6 +38,7 @@ public class ProjectMemberResponseDto {
 				.prjMemId(projectMember.getPrjMemId())
 				.user(UserResponseDto.fromSimple(projectMember.getUser()))
 				.projectRole(projectMember.getProjectRole())
+				.partNm(projectMember.getPart().getPartNm())
 				.build();
 	}
 	
