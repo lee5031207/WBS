@@ -7,6 +7,7 @@ import java.util.List;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -45,7 +46,9 @@ public class Task {
 	@JoinColumn(name = "parent_id")
 	private Task parentTask;
 	
-	@OneToMany(mappedBy = "parentTask", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy = "parentTask", 
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.REMOVE)
 	private List<Task> childrenTasks = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)

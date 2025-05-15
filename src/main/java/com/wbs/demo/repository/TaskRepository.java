@@ -22,5 +22,7 @@ public interface TaskRepository extends JpaRepository<Task, Long>{
 	
 	@Query("SELECT MAX(t.num) FROM Task t WHERE t.parentTask.id = :parentId")
 	Integer findMaxNumByParentId(@Param("parentId") Long parentId);
+	
+	
 
 }

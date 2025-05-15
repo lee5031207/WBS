@@ -28,10 +28,10 @@ public class WbsTaskResponseDto {
 	private String partNm;
 	private LocalDate planStartDt;
 	private LocalDate planEndDt;
-	private String planProgress;
+	private int planProgress;
 	private LocalDate realStartDt;
 	private LocalDate realEndDt;
-	private String realProgress;
+	private int realProgress;
 	private int weight;
 	
 	private List<WbsTaskResponseDto> __children;
@@ -45,10 +45,10 @@ public class WbsTaskResponseDto {
 				.partNm(task.getCharge().getPart().getPartNm())
 				.planStartDt(task.getPlanStartDt())
 				.planEndDt(task.getPlanEndDt())
-				.planProgress(task.getPlanProgress()+"%")
+				.planProgress(task.getPlanProgress())
 				.realStartDt(task.getRealStartDt())
 				.realEndDt(task.getRealEndDt())
-				.realProgress(task.getRealProgress()+"%")
+				.realProgress(task.getRealProgress())
 				.weight(task.getWeight())
 				.build();
 	}

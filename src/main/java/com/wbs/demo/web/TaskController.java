@@ -24,6 +24,8 @@ import com.wbs.demo.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -46,6 +48,22 @@ public class TaskController {
 		
 		return ResponseEntity.ok(task);
 	}
+	
+	@GetMapping("/{id}/descendants")
+	@Operation(summary = "하위 작업 조회(전체)", description = "하위 작업 조회(전체) API")
+	public ResponseEntity<List<TaskResponseDto>> getTaskDescendants(
+			@PathVariable("projectId") Long projectId,
+			@PathVariable("id") Long id
+			){
+		TaskResponseDto task = taskSvc.findById(id);
+		if (!task.getProject().getProjectId().equals(projectId)) {
+	        throw new IllegalArgumentException("이 작업은 해당 프로젝트에 속하지 않습니다.");
+	    }
+		
+		List<TaskResponseDto> trds = taskSvc.getChildTaskId(id);
+		return ResponseEntity.ok(trds);
+	}
+	
 	
 	@GetMapping()
 	@Operation(summary = "작업 목록 조회", description = "작업 목록 조회 API")
@@ -80,9 +98,17 @@ public class TaskController {
 		return ResponseEntity.ok(updatedTask);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping(value = "/{id}")
 	@Operation(summary = "작업 삭제", description = "작업 삭제 API")
-	public ResponseEntity<?> deleteTask(@PathVariable("id") Long id){
+	public ResponseEntity<?> deleteTask(
+			@PathVariable("projectId") Long projectId,
+			@PathVariable("id") Long id){
+		
+		TaskResponseDto task = taskSvc.findById(id);
+		if (!task.getProject().getProjectId().equals(projectId)) {
+	        throw new IllegalArgumentException("이 작업은 해당 프로젝트에 속하지 않습니다.");
+	    }
+		
 		taskSvc.deleteTask(id);
 		return ResponseEntity.ok("작업 삭제 완료");
 	}

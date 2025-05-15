@@ -16,19 +16,24 @@ import com.wbs.demo.dto.task.TaskUpdateDto;
 import com.wbs.demo.repository.ProjectMemberRepository;
 import com.wbs.demo.repository.ProjectRepository;
 import com.wbs.demo.repository.TaskRepository;
-
+import com.wbs.demo.web.LoginController;
+import com.wbs.demo.web.PartController;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
+
+    private final LoginController loginController;
+
+    private final PartController partController;
 	
 	private final TaskRepository taskRepo;
 	
 	private final ProjectRepository projectRepo;
 	
 	private final ProjectMemberRepository projectMemRepo;
-	
+
 	@Transactional(readOnly = true)
 	public TaskResponseDto findById(Long id) {
 		Task task = taskRepo.findById(id)
@@ -163,7 +168,25 @@ public class TaskService {
 	
 	@Transactional
 	public void deleteTask(Long id) {
-		taskRepo.deleteById(id);
+		//taskRepo.deleteById(id);
+	}
+	
+	public List<TaskResponseDto> getChildTaskId(Long id){
+		
+		Task task = taskRepo.findById(id)
+				.orElseThrow(()-> new IllegalArgumentException("작업 조회 결과가 없습니다."));
+		List<TaskResponseDto> list = new ArrayList<>();
+		list.add(TaskResponseDto.fromSimple(task));
+		
+		if(task.getChildrenTasks().size()==0) {
+			return list;
+		}else {
+			List<Task> childs = task.getChildrenTasks();
+			for (Task child : childs) {
+				 list.addAll(getChildTaskId(child.getTaskId())); 
+			}
+			return list;
+		}
 	}
 	
 	//진행도 계산
