@@ -1,5 +1,6 @@
 package com.wbs.demo.dto.dateInfo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,5 +20,10 @@ public class DateInfoDto {
 	
 	private List<WeekDto> weeks;
 	private List<DateDto> dates;
+	private LocalDate startDt;
+	private LocalDate endDt;
+	private int totalDays;
+	private int totalWeeks;
+	
 	
 }

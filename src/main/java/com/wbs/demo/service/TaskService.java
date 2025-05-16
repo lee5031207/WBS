@@ -168,7 +168,7 @@ public class TaskService {
 	
 	@Transactional
 	public void deleteTask(Long id) {
-		//taskRepo.deleteById(id);
+		taskRepo.deleteById(id);
 	}
 	
 	public List<TaskResponseDto> getChildTaskId(Long id){

@@ -70,6 +70,10 @@ public class WbsService {
 			dateInfo = DateInfoDto.builder()
 					.dates(dates)
 					.weeks(weeks)
+					.startDt(startDt)
+					.endDt(endDt)
+					.totalDays(dates.size())
+					.totalWeeks(weeks.size())
 					.build();
 		}catch (Exception e) {
 			e.printStackTrace();
