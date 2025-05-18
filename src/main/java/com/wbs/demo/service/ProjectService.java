@@ -1,21 +1,29 @@
 package com.wbs.demo.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wbs.demo.domain.InitTask;
+import com.wbs.demo.domain.Part;
 import com.wbs.demo.domain.Project;
 import com.wbs.demo.domain.ProjectMember;
+import com.wbs.demo.domain.ProjectRole;
+import com.wbs.demo.domain.Task;
 import com.wbs.demo.domain.Team;
 import com.wbs.demo.domain.User;
 import com.wbs.demo.dto.project.ProjectResponseDto;
 import com.wbs.demo.dto.project.ProjectUpdateDto;
 import com.wbs.demo.dto.project.ProjectCreateDto;
+import com.wbs.demo.repository.PartRepository;
 import com.wbs.demo.repository.ProjectMemberRepository;
 import com.wbs.demo.repository.ProjectRepository;
+import com.wbs.demo.repository.TaskRepository;
 import com.wbs.demo.repository.TeamRepository;
 import com.wbs.demo.repository.UserRepository;
 
@@ -32,6 +40,15 @@ public class ProjectService {
 	private final UserRepository userRepo;
 	
 	private final ProjectMemberRepository prjMemRepo;
+	
+	private final PartRepository partRepo;
+	
+	private final TaskRepository taskRepo;
+	
+	private final List<String> initTask = Arrays.stream(InitTask.values())
+	        .map(InitTask::getDisplayName)
+	        .collect(Collectors.toList());
+
 	
 	@Transactional(readOnly = true)
 	public ProjectResponseDto findById(Long id) {
@@ -80,8 +97,37 @@ public class ProjectService {
 		
 		Team team = user.getTeam();
 		project.setTeam(team);
-		
 		Project savedProject = projectRepo.save(project);
+		
+		Part part = new Part();
+		part.setPartNm("공통");
+		part.setPartDesc("공통 모듈 Part");
+		part.setProject(project);
+		partRepo.save(part);
+		
+		ProjectMember prjMem = new ProjectMember();
+		prjMem.setProject(project);
+		prjMem.setUser(user);
+		prjMem.setProjectRole(ProjectRole.PM);
+		prjMem.setPart(part);
+		prjMemRepo.save(prjMem);
+		
+		//3. 최초 TASK 생성		
+		for (String taskNm : initTask) {
+			Task task = new Task();
+			task.setCharge(prjMem);
+			task.setDepth(0);
+			task.setNum(1);
+			task.setPlanStartDt(request.getStartDt());
+			task.setPlanEndDt(request.getEndDt());
+			task.setPlanProgress(100);
+			task.setProject(project);
+			task.setRemark("WBS 최초 작성");
+			task.setTaskNm(taskNm);
+			task.setWeight(1);
+			taskRepo.save(task);
+		}
+		
 		return ProjectResponseDto.fromSimple(savedProject);
 	}
 	
