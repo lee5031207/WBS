@@ -38,7 +38,11 @@ public class ProjectMemberResponseDto {
 				.prjMemId(projectMember.getPrjMemId())
 				.user(UserResponseDto.fromSimple(projectMember.getUser()))
 				.projectRole(projectMember.getProjectRole())
-				.partNm(projectMember.getPart().getPartNm())
+				.partNm(
+						projectMember.getPart() != null
+							? projectMember.getPart().getPartNm()
+							: null
+						)
 				.build();
 	}
 	
@@ -58,7 +62,7 @@ public class ProjectMemberResponseDto {
 						projectMember.getPart() != null
 							? PartResponseDto.fromSimple(projectMember.getPart())
 							: null
-				)
+						)
 				.tasks(tasks)
 				.build();
 	}

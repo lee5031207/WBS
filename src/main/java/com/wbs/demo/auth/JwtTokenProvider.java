@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.wbs.demo.dto.login.JwtToken;
+import com.wbs.demo.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -36,6 +37,12 @@ public class JwtTokenProvider {
 	@Value("${jwt.token.refresh.expiration}")
 	private Long refreshTokenExp;
 	
+	private final UserRepository userRepo;
+	
+	public JwtTokenProvider(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+	
     public JwtToken generateToken(Authentication authentication) {
     	
     	String authorities = authentication.getAuthorities().stream()
@@ -43,9 +50,16 @@ public class JwtTokenProvider {
     			.collect(Collectors.joining(","));
     	
     	long now = (new Date()).getTime();
+    	
+    	com.wbs.demo.domain.User user = userRepo.findByloginId(authentication.getName())
+    			.orElseThrow(() -> new RuntimeException("해당 로그인 ID의 사용자가 없습니다."));
+    	
     	String accessToken = Jwts.builder()
     			.setSubject(authentication.getName())
     			.claim("auth", authorities)
+    			.claim("email", user.getEmail())
+    			.claim("teamNm", user.getTeam().getTeamNm())
+    			.claim("userNm", user.getUserNm())
     			.setExpiration(new Date(now+accessTokenExp))
     			.signWith(SignatureAlgorithm.HS256, secretKey)
     			.compact();

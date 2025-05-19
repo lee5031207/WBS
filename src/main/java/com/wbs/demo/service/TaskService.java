@@ -132,7 +132,7 @@ public class TaskService {
 			}
 			task.setPlanStartDt(request.getPlanStartDt());
 			task.setPlanEndDt(request.getPlanEndDt());
-			task.setPlanProgress(calProgress(request.getPlanStartDt(), request.getPlanStartDt()));
+			task.setPlanProgress(calProgress(request.getPlanStartDt(), request.getPlanEndDt()));
 		}else if(request.getPlanStartDt() != null || request.getPlanEndDt() != null){
 			throw new IllegalArgumentException("계획 시작일과 종료일은 모두 입력하거나 모두 생략해야 합니다.");
 		}
