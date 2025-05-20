@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.wbs.demo.auth.JwtAuthenticationEntryPoint;
 import com.wbs.demo.auth.JwtAuthenticationFilter;
 import com.wbs.demo.auth.JwtTokenProvider;
 
@@ -24,6 +25,8 @@ public class SecurityConfig {
 
 	private final JwtTokenProvider jwtTokenProvider;
 	
+	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		
@@ -34,7 +37,8 @@ public class SecurityConfig {
                 .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(
-                                "/api/login",
+                                "/api/auth/login",
+                                "/api/auth/refresh",
                                 "/api-spec",
                                 "/v3/api-docs/**",            // Swagger 문서 JSON
                                 "/swagger-ui/**",             // Swagger UI HTML, JS 등
@@ -64,6 +68,7 @@ public class SecurityConfig {
                         
                         .requestMatchers("/ws/**").permitAll()
                         .anyRequest().authenticated())
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .build();
 	}

@@ -17,13 +17,13 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/login")
+@RequestMapping("/api/auth")
 @Tag(name = "Auth", description = "login API")
 public class LoginController {
 
 	private final LoginService loginService;
 	
-	@PostMapping
+	@PostMapping("/login")
 	@Operation(summary = "로그인", description = "로그인 API")
 	public JwtToken login(@RequestBody LoginRequestDto loginDto) {
 		String loginId = loginDto.getLoginId();
