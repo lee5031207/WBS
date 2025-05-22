@@ -79,5 +79,16 @@ public class LoginController {
 		return jwtToken;
 	}
 	
+	@PostMapping("/logout")
+	@Operation(summary = "로그아웃", description = "로그아웃 API")
+	public void logout(HttpServletResponse response) {
+		Cookie cookie = new Cookie("refreshToken", null);
+		cookie.setHttpOnly(true);
+		cookie.setSecure(false);
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+	}
+	
 	
 }
