@@ -54,6 +54,7 @@ public class User implements UserDetails{
 	@JoinColumn(name = "team_id")
 	private Team team;
 	
+	@Builder.Default
 	@OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)
 	private List<ProjectMember> projectMembers = new ArrayList<>();
 	
