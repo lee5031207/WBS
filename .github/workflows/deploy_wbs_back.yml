@@ -15,16 +15,16 @@ jobs:
     steps:
       - name: ✔ 소스 체크아웃
         uses: actions/checkout@v4
-        
+
       - name: ✔ Java JDK설치
-        uses: actions/setup-java@v2 
-		    with:
-			    java-version: '17'
-			    distribution: 'temurin'
+        uses: actions/setup-java@v2
+        with:
+          java-version: "17"
+          distribution: "temurin"
 
       - name: 🔍 JDK 버전 확인
         run: java -version
-      
+
       - name: 🔑 application-dev.properties 생성
         run: |
           echo "${{ secrets.WBS_DEV_PROPERTIES }}" > src/main/resources/application-dev.properties
@@ -48,7 +48,7 @@ jobs:
         with:
           name: wbs-backend-build
           path: ./deploy
-      
+
       - name: 🔒 SSH key 파일 생성
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
