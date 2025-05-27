@@ -27,6 +27,7 @@ jobs:
 
       - name: 🔑 application-dev.properties 생성
         run: |
+          mkdir -p src/main/resources
           echo "${{ secrets.WBS_DEV_PROPERTIES }}" > src/main/resources/application-dev.properties
 
       - name: 🧱 Gradle build (bootJar 생성)
