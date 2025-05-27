@@ -30,7 +30,7 @@ public class LoginController {
 	private final LoginService loginService;
 	
 	@PostMapping("/login")
-	@Operation(summary = "로그인", description = "로그인 API")
+	@Operation(summary = "로그인", description = "로그인 API - TEST")
 	public JwtToken login(@RequestBody LoginRequestDto loginDto , HttpServletResponse response) {
 		
 		String loginId = loginDto.getLoginId();
