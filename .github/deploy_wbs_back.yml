@@ -1,0 +1,66 @@
+# https://tech.kakaoent.com/front-end/2022/220106-github-actions/
+# https://github.com/actions 👈여기서 actions 확인 가능
+
+name: "deploy_wbs_back"
+
+# main 브랜치에 push 될 때마다 실행됨
+on:
+  push:
+    branched: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✔ 소스 체크아웃
+        uses: actions/checkout@v4
+
+	    - name: ✔ Java JDK설치
+	  	  uses: actions/setup-java@v2 
+		    with:
+			    java-version: '17'
+			    distribution: 'temurin'
+
+      - name: 🔍 JDK 버전 확인
+        run: java -version
+      
+      - name: 🔑 application-dev.properties 생성
+        run: |
+          echo "${{ secrets.WBS_DEV_PROPERTIES }}" > src/main/resources/application-dev.properties
+
+      - name: 🧱 Gradle build (bootJar 생성)
+        run: ./gradlew bootJar
+
+      - name: 📦 jar 빌드 파일 아티팩트 업로드
+        uses: actions/upload-artifact@v4
+        with:
+          name: wbs-backend-build
+          path: build/libs/*.jar
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: 📥 빌드 파일 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: wbs-backend-build
+          path: ./deploy
+      
+      - name: 🔒 SSH key 파일 생성
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem
+          chmod 600 ec2_key.pem
+
+      - name: 🔒 Copy files to EC2
+        run: |
+          scp -i ec2_key.pem -o StrictHostKeyChecking=no -r ./deploy/*.jar ubuntu@${{ secrets.EC2_HOST }}:/app/backend/deploy/
+
+      - name: 🔁 EC2 Spring Boot 재기동
+        run: |
+          ssh -i ec2_key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            sudo pkill -f 'java -jar' || true
+            sudo nohup java -jar /app/backend/deploy/*.jar --spring.profiles.active=dev > wbs.log 2>&1 &
+          EOF
